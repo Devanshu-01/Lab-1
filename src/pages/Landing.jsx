@@ -11,7 +11,7 @@ function Landing() {
         <span className="landing-logo">TenantTrails</span>
         <div className="landing-nav-actions">
           <button className="btn-ghost" onClick={() => navigate('/login')}>Sign In</button>
-          <button className="btn-primary" onClick={() => navigate('/login')}>Get Started</button>
+          <button className="btn-primary" onClick={() => navigate('/signup')}>Get Started</button>
         </div>
       </nav>
 
@@ -26,7 +26,7 @@ function Landing() {
           Make informed decisions about where you live.
         </p>
         <div className="hero-cta">
-          <button className="btn-primary btn-lg" onClick={() => navigate('/login')}>Create Free Account</button>
+          <button className="btn-primary btn-lg" onClick={() => navigate('/signup')}>Create Free Account</button>
           <button className="btn-outline btn-lg" onClick={() => navigate('/login')}>Sign In</button>
         </div>
 

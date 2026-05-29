@@ -77,6 +77,13 @@
   padding: 8px 12px;
 }
 
+.field-error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+  display: block;
+}
+
 .btn-signin {
   width: 100%;
   background: var(--brand);

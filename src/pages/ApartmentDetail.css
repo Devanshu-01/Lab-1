@@ -1,0 +1,396 @@
+.detail-page {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* Navbar */
+.detail-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.detail-nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-link {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.nav-link:hover {
+  color: var(--brand);
+}
+
+/* Main */
+.detail-main {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.back-link {
+  display: inline-block;
+  background: none;
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.back-link:hover {
+  color: var(--brand);
+}
+
+/* Header */
+.apt-header {
+  display: flex;
+  gap: 24px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.apt-header-image {
+  flex: 0 0 220px;
+  height: 160px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.apt-header-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.apt-header-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.apt-header-name {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.apt-header-address {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin-bottom: 14px;
+}
+
+.apt-header-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apt-header-score {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.apt-header-count {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Stars (shared) */
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.star-filled {
+  color: var(--star-gold);
+}
+
+.star-empty {
+  color: var(--border);
+}
+
+/* AI summary */
+.ai-summary {
+  background: var(--brand-light);
+  border: 1px solid #dbeafe;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.ai-badge {
+  display: inline-block;
+  background: var(--brand);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  margin-bottom: 10px;
+}
+
+.ai-summary-text {
+  color: var(--text-primary);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.ai-issues {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tag {
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+/* Reviews */
+.reviews-section {
+  margin-top: 32px;
+}
+
+.reviews-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.reviews-head h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.btn-write-review {
+  background: var(--brand);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-write-review:hover {
+  background: var(--brand-dark);
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.review-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.review-date {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.review-body {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.review-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-author {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.review-delete {
+  background: none;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.review-delete:hover {
+  text-decoration: underline;
+}
+
+.no-reviews {
+  color: var(--text-muted);
+  font-size: 15px;
+  padding: 24px 0;
+}
+
+.detail-notfound {
+  text-align: center;
+  padding: 80px 24px;
+}
+
+.detail-notfound h2 {
+  margin-bottom: 16px;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal-content {
+  background: var(--white);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-modal);
+}
+
+/* Review dialog */
+.review-dialog h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.dialog-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.star-input {
+  display: flex;
+  gap: 6px;
+  font-size: 32px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.star-input-on {
+  color: var(--star-gold);
+}
+
+.star-input-off {
+  color: var(--border);
+}
+
+.review-dialog textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-family: var(--font);
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 8px;
+}
+
+.review-dialog textarea:focus {
+  border-color: var(--brand);
+}
+
+.dialog-error {
+  color: #dc2626;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-cancel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-cancel:hover {
+  background: var(--bg);
+}
+
+.btn-submit {
+  background: var(--brand);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-submit:hover {
+  background: var(--brand-dark);
+}
+
+@media (max-width: 640px) {
+  .apt-header {
+    flex-direction: column;
+  }
+  .apt-header-image {
+    flex: none;
+    width: 100%;
+  }
+}

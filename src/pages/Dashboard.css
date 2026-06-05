@@ -5,6 +5,21 @@
   flex-direction: column;
 }
 
+.user-profile-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+
+.user-profile-link:hover {
+  background: var(--bg);
+}
+
 /* Navbar */
 .dash-nav {
   background: var(--white);

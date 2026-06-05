@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import './ApartmentCard.css'
 
 function Stars({ rating }) {
@@ -11,10 +12,10 @@ function Stars({ rating }) {
 }
 
 function ApartmentCard({ apartment }) {
-  const { name, address, neighbourhood, rating, reviewCount, tags, imageUrl, noSummary } = apartment
+  const { id, name, address, neighbourhood, rating, reviewCount, tags, imageUrl, noSummary } = apartment
 
   return (
-    <div className="apt-card">
+    <Link to={`/apartment/${id}`} className="apt-card">
       <div className="apt-card-image">
         <img src={imageUrl} alt={name} loading="lazy" />
         <div className="apt-card-rating">
@@ -38,7 +39,7 @@ function ApartmentCard({ apartment }) {
           <Stars rating={rating} />
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
 

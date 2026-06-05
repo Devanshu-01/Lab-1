@@ -6,8 +6,9 @@ export const apartments = [
     neighbourhood: 'Spring Garden',
     rating: 5.0,
     reviewCount: 1,
-    tags: [],
-    noSummary: true,
+    tags: ['Spotless', 'Responsive landlord', 'Well furnished'],
+    noSummary: false,
+    aiSummary: 'Tenants describe The Marlstone as spotless and well furnished, with a landlord who responds within a day. Reviews are overwhelmingly positive with no recurring complaints.',
     imageUrl: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80',
   },
   {
@@ -19,6 +20,7 @@ export const apartments = [
     reviewCount: 2,
     tags: ['Well maintained', 'Quiet', 'Expensive'],
     noSummary: false,
+    aiSummary: 'Tenants consistently praise how well maintained and quiet Park Victoria is, with responsive management. The main drawback raised is the high rent.',
     imageUrl: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80',
   },
   {
@@ -30,6 +32,7 @@ export const apartments = [
     reviewCount: 3,
     tags: ['Good location', 'Parking limited', 'Aging building'],
     noSummary: false,
+    aiSummary: 'Reviewers love the location of Le Marchant Towers, especially its proximity to campus. Common complaints centre on limited parking, an aging building, and thin walls.',
     imageUrl: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80',
   },
   {
@@ -41,6 +44,7 @@ export const apartments = [
     reviewCount: 3,
     tags: ['Elevator issues', 'Great views', 'Security concerns'],
     noSummary: false,
+    aiSummary: 'Fenwick Tower is known for great views from the upper floors, but tenants repeatedly flag unreliable elevators and security concerns at the entrance.',
     imageUrl: 'https://images.unsplash.com/photo-1479839672679-a46483c0e7c8?w=600&q=80',
   },
   {
@@ -50,8 +54,9 @@ export const apartments = [
     neighbourhood: 'South End',
     rating: 2.5,
     reviewCount: 4,
-    tags: [],
-    noSummary: true,
+    tags: ['Affordable', 'Central', 'Slow maintenance', 'Thin walls'],
+    noSummary: false,
+    aiSummary: 'Southpoint is valued for being affordable and central, but tenants repeatedly report slow maintenance, winter heating problems, and noise from thin walls.',
     imageUrl: 'https://images.unsplash.com/photo-1460317442991-0ec209397118?w=600&q=80',
   },
 ]

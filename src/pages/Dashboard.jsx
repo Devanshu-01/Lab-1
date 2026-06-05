@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
+import { useReviews } from '../context/ReviewsContext'
 import { apartments, neighbourhoods, sortOptions } from '../data/apartments'
 import ApartmentCard from '../components/ApartmentCard'
 import './Dashboard.css'
@@ -8,6 +9,7 @@ import './Dashboard.css'
 function Dashboard() {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
+  const { reviews } = useReviews()
   const [search, setSearch] = useState('')
   const [neighbourhood, setNeighbourhood] = useState('All Neighbourhoods')
   const [sort, setSort] = useState('Highest Rated')
@@ -16,10 +18,17 @@ function Dashboard() {
     return null
   }
 
-  const totalReviews = apartments.reduce((s, a) => s + a.reviewCount, 0)
+  // Live review count per apartment, derived from the reviews context so that
+  // submitting a new review updates the tiles immediately.
+  const countFor = aptId => reviews.filter(r => r.aptId === aptId).length
+
+  // Augment each apartment with its live review count before filtering/sorting.
+  const withCounts = apartments.map(a => ({ ...a, reviewCount: countFor(a.id) }))
+
+  const totalReviews = reviews.length
   const uniqueNeighbourhoods = [...new Set(apartments.map(a => a.neighbourhood))].length
 
-  let filtered = apartments.filter(a => {
+  let filtered = withCounts.filter(a => {
     const q = search.toLowerCase()
     const matchSearch = !q || a.name.toLowerCase().includes(q) || a.address.toLowerCase().includes(q) || a.neighbourhood.toLowerCase().includes(q)
     const matchNeighbourhood = neighbourhood === 'All Neighbourhoods' || a.neighbourhood === neighbourhood
@@ -55,8 +64,10 @@ function Dashboard() {
           />
         </div>
         <div className="dash-user">
-          <div className="user-avatar">{initials}</div>
-          <span className="user-name">{user.name}</span>
+          <Link to="/profile" className="user-profile-link">
+            <div className="user-avatar">{initials}</div>
+            <span className="user-name">{user.name}</span>
+          </Link>
           <button className="btn-signout" onClick={handleSignOut}>Sign out</button>
         </div>
       </nav>

@@ -3,6 +3,26 @@ import { useNavigate, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import './Login.css'
 
+// Standalone validation logic, exported so it can be unit tested in isolation.
+// Returns an object whose keys are the fields that have errors.
+export function validate(email, password) {
+  const errors = {}
+
+  if (!email.trim()) {
+    errors.email = 'Email is required'
+  } else if (!email.includes('@')) {
+    errors.email = 'Email must contain "@"'
+  }
+
+  if (!password) {
+    errors.password = 'Password is required'
+  } else if (password.length < 6) {
+    errors.password = 'Password must be at least 6 characters'
+  }
+
+  return errors
+}
+
 function Login() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -17,29 +37,11 @@ function Login() {
   const DEMO_EMAIL = 'alex@dal.ca'
   const DEMO_PASSWORD = 'password123'
 
-  function validate() {
-    const newErrors = {}
-
-    if (!email.trim()) {
-      newErrors.email = 'Email is required'
-    } else if (!email.includes('@')) {
-      newErrors.email = 'Email must contain "@"'
-    }
-
-    if (!password) {
-      newErrors.password = 'Password is required'
-    } else if (password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters'
-    }
-
-    return newErrors
-  }
-
   function handleSubmit(e) {
     e.preventDefault()
     setGeneralError('')
-    
-    const newErrors = validate()
+
+    const newErrors = validate(email, password)
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return

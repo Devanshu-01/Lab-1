@@ -1,0 +1,115 @@
+.profile-page {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.profile-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 32px;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+.profile-logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--brand);
+}
+
+.profile-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.btn-signout {
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-signout:hover {
+  background: var(--bg);
+}
+
+.profile-main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+}
+
+.profile-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--brand);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.profile-info h1 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.profile-info p {
+  color: var(--text-secondary);
+  font-size: 15px;
+}
+
+.profile-reviews-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 32px 0 16px;
+}
+
+.profile-reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-review-apt {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+
+.profile-review-apt:hover {
+  text-decoration: underline;
+}
+
+.profile-empty {
+  color: var(--text-secondary);
+  font-size: 15px;
+  padding: 24px 0;
+}
+
+.login-link {
+  color: var(--brand);
+  font-weight: 600;
+}

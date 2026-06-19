@@ -1,28 +1,33 @@
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useReviews } from '../context/ReviewsContext'
-import { apartments } from '../data/apartments'
+import { api } from '../lib/api'
 import ReviewCard from '../components/ReviewCard'
 import './Profile.css'
 
 function Profile() {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
-  const { reviews, deleteReview } = useReviews()
+  const [myReviews, setMyReviews] = useState([])
+
+  // Load the current user's reviews (apartment name is joined in by the API).
+  useEffect(() => {
+    let active = true
+    api.myReviews()
+      .then(data => { if (active) setMyReviews(data) })
+      .catch(() => { if (active) setMyReviews([]) })
+    return () => { active = false }
+  }, [])
 
   if (!user) return null
-
-  const myReviews = reviews
-    .filter(r => r.userEmail === user.email)
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
 
   const initials =
     user.initials ||
     user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)
 
-  function aptName(aptId) {
-    const apt = apartments.find(a => a.id === aptId)
-    return apt ? apt.name : 'Unknown apartment'
+  async function handleDelete(reviewId) {
+    await api.deleteReview(reviewId)
+    setMyReviews(prev => prev.filter(r => r.id !== reviewId))
   }
 
   function handleSignOut() {
@@ -58,14 +63,15 @@ function Profile() {
             {myReviews.map(r => (
               <div key={r.id} className="profile-review-item">
                 <Link to={`/apartment/${r.aptId}`} className="profile-review-apt">
-                  {aptName(r.aptId)}
+                  {r.aptName || 'Unknown apartment'}
                 </Link>
                 <ReviewCard
                   rating={r.rating}
                   body={r.body}
                   date={r.date}
                   author={r.author}
-                  onDelete={() => deleteReview(r.id)}
+                  imageUrl={r.imageUrl}
+                  onDelete={() => handleDelete(r.id)}
                 />
               </div>
             ))}

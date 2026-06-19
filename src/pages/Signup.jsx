@@ -15,6 +15,7 @@ function Signup() {
   })
 
   const [errors, setErrors] = useState({})
+  const [submitting, setSubmitting] = useState(false)
 
   function validate() {
     const newErrors = {}
@@ -52,7 +53,7 @@ function Signup() {
     }
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     const newErrors = validate()
     if (Object.keys(newErrors).length > 0) {
@@ -60,13 +61,14 @@ function Signup() {
       return
     }
 
-    const newUser = {
-      name: form.name,
-      email: form.email,
+    setSubmitting(true)
+    const result = await registerUser({
+      name: form.name.trim(),
+      email: form.email.trim(),
       password: form.password,
-    }
+    })
+    setSubmitting(false)
 
-    const result = registerUser(newUser)
     if (!result.success) {
       setErrors({ email: result.error })
       return
@@ -134,7 +136,9 @@ function Signup() {
             {errors.confirmPassword && <p className="login-error" style={{ marginTop: '4px' }}>{errors.confirmPassword}</p>}
           </div>
 
-          <button type="submit" className="btn-signin" style={{ marginTop: '8px' }}>Create Account</button>
+          <button type="submit" className="btn-signin" style={{ marginTop: '8px' }} disabled={submitting}>
+            {submitting ? 'Creating…' : 'Create Account'}
+          </button>
 
           <p className="login-footer">
             Already have an account? <Link to="/login" className="login-link">Sign In</Link>

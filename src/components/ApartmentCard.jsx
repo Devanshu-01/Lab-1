@@ -13,6 +13,8 @@ function Stars({ rating }) {
 
 function ApartmentCard({ apartment }) {
   const { id, name, address, neighbourhood, rating, reviewCount, tags, imageUrl, noSummary } = apartment
+  // An apartment with no reviews has a null rating from the API.
+  const safeRating = rating ?? 0
 
   return (
     <Link to={`/apartment/${id}`} className="apt-card">
@@ -20,7 +22,7 @@ function ApartmentCard({ apartment }) {
         <img src={imageUrl} alt={name} loading="lazy" />
         <div className="apt-card-rating">
           <span className="rating-star">★</span>
-          <span className="rating-num">{rating.toFixed(1)}</span>
+          <span className="rating-num">{safeRating.toFixed(1)}</span>
         </div>
       </div>
       <div className="apt-card-body">
@@ -36,7 +38,7 @@ function ApartmentCard({ apartment }) {
         </div>
         <div className="apt-card-footer">
           <span className="apt-review-count">{reviewCount} review{reviewCount !== 1 ? 's' : ''}</span>
-          <Stars rating={rating} />
+          <Stars rating={safeRating} />
         </div>
       </div>
     </Link>

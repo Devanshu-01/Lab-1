@@ -3,6 +3,23 @@
   background: var(--bg);
 }
 
+/* Review attachment image */
+.review-image {
+  display: block;
+  max-width: 100%;
+  max-height: 280px;
+  margin: 12px 0;
+  border-radius: var(--radius-sm, 8px);
+  object-fit: cover;
+}
+
+/* Selected file name in the review dialog */
+.dialog-file-name {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted, #6b7280);
+}
+
 /* Navbar */
 .detail-nav {
   display: flex;

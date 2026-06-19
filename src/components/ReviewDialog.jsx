@@ -1,13 +1,27 @@
 import { useState } from 'react'
+import { uploadImage } from '../lib/api'
 
-// Star rating input, text area, submit. Receives onClose and onSubmit as props.
+// Star rating input, text area, optional photo, submit.
+// Receives onClose and onSubmit as props.
 function ReviewDialog({ onClose, onSubmit }) {
   const [rating, setRating] = useState(0)
   const [hover, setHover] = useState(0)
   const [body, setBody] = useState('')
+  const [file, setFile] = useState(null)
   const [error, setError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
-  function handleSubmit() {
+  function handleFileChange(e) {
+    const selected = e.target.files?.[0] || null
+    if (selected && !selected.type.startsWith('image/')) {
+      setError('Attachment must be an image.')
+      return
+    }
+    setFile(selected)
+    setError('')
+  }
+
+  async function handleSubmit() {
     if (rating === 0) {
       setError('Please select a star rating.')
       return
@@ -16,8 +30,21 @@ function ReviewDialog({ onClose, onSubmit }) {
       setError('Please write a few words about your experience.')
       return
     }
-    onSubmit({ rating, body: body.trim() })
-    onClose()
+
+    setSubmitting(true)
+    try {
+      // Upload the photo to the CDN first, then attach its URL to the review.
+      let imageUrl
+      if (file) {
+        const result = await uploadImage(file)
+        imageUrl = result.url
+      }
+      await onSubmit({ rating, body: body.trim(), imageUrl })
+      onClose()
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.')
+      setSubmitting(false)
+    }
   }
 
   return (
@@ -48,11 +75,22 @@ function ReviewDialog({ onClose, onSubmit }) {
         rows={5}
       />
 
+      <label className="dialog-label" htmlFor="review-photo">Add a photo (optional)</label>
+      <input
+        id="review-photo"
+        type="file"
+        accept="image/*"
+        onChange={handleFileChange}
+      />
+      {file && <p className="dialog-file-name">{file.name}</p>}
+
       {error && <p className="dialog-error">{error}</p>}
 
       <div className="dialog-actions">
-        <button className="btn-cancel" onClick={onClose}>Cancel</button>
-        <button className="btn-submit" onClick={handleSubmit}>Submit Review</button>
+        <button className="btn-cancel" onClick={onClose} disabled={submitting}>Cancel</button>
+        <button className="btn-submit" onClick={handleSubmit} disabled={submitting}>
+          {submitting ? 'Submitting…' : 'Submit Review'}
+        </button>
       </div>
     </div>
   )

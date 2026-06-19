@@ -26,18 +26,19 @@ export function validate(email, password) {
 function Login() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { setUser, users } = useAuth()
+  const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errors, setErrors] = useState({})
   const [generalError, setGeneralError] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
   const signupSuccess = location.state?.signupSuccess
 
   const DEMO_EMAIL = 'alex@dal.ca'
   const DEMO_PASSWORD = 'password123'
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     setGeneralError('')
 
@@ -48,20 +49,15 @@ function Login() {
     }
 
     setErrors({})
+    setSubmitting(true)
 
-    const foundUser = users.find(
-      u => u.email.toLowerCase() === email.toLowerCase().trim() && u.password === password
-    )
+    const result = await login(email.trim(), password)
+    setSubmitting(false)
 
-    if (foundUser) {
-      setUser({
-        name: foundUser.name,
-        email: foundUser.email,
-        initials: foundUser.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'US'
-      })
+    if (result.success) {
       navigate('/dashboard')
     } else {
-      setGeneralError('Invalid email or password.')
+      setGeneralError(result.error || 'Invalid email or password.')
     }
   }
 
@@ -121,7 +117,9 @@ function Login() {
 
           {generalError && <p className="login-error">{generalError}</p>}
 
-          <button type="submit" className="btn-signin">Sign In</button>
+          <button type="submit" className="btn-signin" disabled={submitting}>
+            {submitting ? 'Signing in…' : 'Sign In'}
+          </button>
 
           <p className="login-footer">
             Don't have an account? <Link to="/signup" className="login-link">Create one</Link>

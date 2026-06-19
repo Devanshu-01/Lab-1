@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useReviews } from '../context/ReviewsContext'
-import { apartments } from '../data/apartments'
+import { api } from '../lib/api'
 import ApartmentHeader from '../components/ApartmentHeader'
 import AISummary from '../components/AISummary'
 import ReviewCard from '../components/ReviewCard'
@@ -13,12 +12,39 @@ function ApartmentDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { user } = useAuth()
-  const { reviews, addReview } = useReviews()
+  const [apt, setApt] = useState(null)
+  const [aptReviews, setAptReviews] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
   const [showReview, setShowReview] = useState(false)
 
-  const apt = apartments.find(a => a.id === Number(id))
+  // Load the apartment and its reviews from the API.
+  useEffect(() => {
+    let active = true
+    api.getApartment(id)
+      .then(data => {
+        if (!active) return
+        const { reviews = [], ...apartment } = data
+        setApt(apartment)
+        setAptReviews(reviews)
+      })
+      .catch(err => {
+        if (!active) return
+        if (err.status === 404) setNotFound(true)
+      })
+      .finally(() => { if (active) setLoading(false) })
+    return () => { active = false }
+  }, [id])
 
-  if (!apt) {
+  if (loading) {
+    return (
+      <div className="detail-page">
+        <div className="detail-notfound"><h2>Loading…</h2></div>
+      </div>
+    )
+  }
+
+  if (notFound || !apt) {
     return (
       <div className="detail-page">
         <div className="detail-notfound">
@@ -29,18 +55,10 @@ function ApartmentDetail() {
     )
   }
 
-  const aptReviews = reviews
-    .filter(r => r.aptId === apt.id)
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-
-  function handleSubmit({ rating, body }) {
-    addReview({
-      aptId: apt.id,
-      rating,
-      body,
-      author: user.name,
-      userEmail: user.email,
-    })
+  // Throws on failure so the dialog can show the error and stay open.
+  async function handleSubmit({ rating, body, imageUrl }) {
+    const created = await api.addReview(apt.id, { rating, body, imageUrl })
+    setAptReviews(prev => [created, ...prev])
   }
 
   return (
@@ -81,6 +99,7 @@ function ApartmentDetail() {
                   body={r.body}
                   date={r.date}
                   author={r.author}
+                  imageUrl={r.imageUrl}
                 />
               ))}
             </div>

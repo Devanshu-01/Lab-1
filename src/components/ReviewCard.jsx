@@ -2,7 +2,7 @@ import StarRating from './StarRating'
 
 // Displays a single review. Receives all data as props. The optional onDelete
 // prop adds a delete button (used on the Profile page).
-function ReviewCard({ rating, body, date, author, onDelete }) {
+function ReviewCard({ rating, body, date, author, imageUrl, onDelete }) {
   return (
     <div className="review-card">
       <div className="review-header">
@@ -10,6 +10,9 @@ function ReviewCard({ rating, body, date, author, onDelete }) {
         <span className="review-date">{date}</span>
       </div>
       <p className="review-body">{body}</p>
+      {imageUrl && (
+        <img className="review-image" src={imageUrl} alt="Review attachment" loading="lazy" />
+      )}
       <div className="review-footer">
         <span className="review-author">{author}</span>
         {onDelete && (

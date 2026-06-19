@@ -1,34 +1,39 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { useReviews } from '../context/ReviewsContext'
-import { apartments, neighbourhoods, sortOptions } from '../data/apartments'
+import { neighbourhoods, sortOptions } from '../data/apartments'
+import { api } from '../lib/api'
 import ApartmentCard from '../components/ApartmentCard'
 import './Dashboard.css'
 
 function Dashboard() {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
-  const { reviews } = useReviews()
+  const [apartments, setApartments] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
   const [search, setSearch] = useState('')
   const [neighbourhood, setNeighbourhood] = useState('All Neighbourhoods')
   const [sort, setSort] = useState('Highest Rated')
+
+  // Load the apartment list (with rating + reviewCount) from the API.
+  useEffect(() => {
+    let active = true
+    api.listApartments()
+      .then(data => { if (active) setApartments(data) })
+      .catch(err => { if (active) setError(err.message || 'Failed to load apartments') })
+      .finally(() => { if (active) setLoading(false) })
+    return () => { active = false }
+  }, [])
 
   if (!user) {
     return null
   }
 
-  // Live review count per apartment, derived from the reviews context so that
-  // submitting a new review updates the tiles immediately.
-  const countFor = aptId => reviews.filter(r => r.aptId === aptId).length
-
-  // Augment each apartment with its live review count before filtering/sorting.
-  const withCounts = apartments.map(a => ({ ...a, reviewCount: countFor(a.id) }))
-
-  const totalReviews = reviews.length
+  const totalReviews = apartments.reduce((sum, a) => sum + (a.reviewCount || 0), 0)
   const uniqueNeighbourhoods = [...new Set(apartments.map(a => a.neighbourhood))].length
 
-  let filtered = withCounts.filter(a => {
+  let filtered = apartments.filter(a => {
     const q = search.toLowerCase()
     const matchSearch = !q || a.name.toLowerCase().includes(q) || a.address.toLowerCase().includes(q) || a.neighbourhood.toLowerCase().includes(q)
     const matchNeighbourhood = neighbourhood === 'All Neighbourhoods' || a.neighbourhood === neighbourhood
@@ -97,7 +102,11 @@ function Dashboard() {
         </div>
 
         {/* Grid */}
-        {filtered.length > 0 ? (
+        {loading ? (
+          <div className="no-results"><p>Loading apartments…</p></div>
+        ) : error ? (
+          <div className="no-results"><p>{error}</p></div>
+        ) : filtered.length > 0 ? (
           <div className="apt-grid">
             {filtered.map(apt => (
               <ApartmentCard key={apt.id} apartment={apt} />

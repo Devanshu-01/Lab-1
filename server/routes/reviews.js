@@ -12,6 +12,58 @@ const COMMENT_COLUMNS = `
   c.created_at AS createdAt
 `;
 
+// Column aliases so the JSON shape matches the frontend (camelCase).
+const REVIEW_COLUMNS = `
+  r.id,
+  r.apt_id      AS aptId,
+  r.rating,
+  r.body,
+  r.image_url   AS imageUrl,
+  r.created_at  AS date,
+  r.author,
+  r.user_email  AS userEmail
+`;
+
+// PUT /api/reviews/:id — edit a review (protected; author only).
+// Authentication asks "are you logged in?" (401); authorization asks
+// "is this your review?" (403). Compare the row's user_id to req.user.id.
+router.put("/:id", auth, async (req, res, next) => {
+  try {
+    const { rating, body } = req.body;
+
+    if (rating === undefined || body === undefined) {
+      return res.status(400).json({ error: "rating and body are required" });
+    }
+    if (rating < 1 || rating > 5) {
+      return res.status(400).json({ error: "rating must be between 1 and 5" });
+    }
+
+    const [[review]] = await pool.query(
+      "SELECT id, user_id FROM reviews WHERE id = ?",
+      [req.params.id]
+    );
+    if (!review) return res.status(404).json({ error: "Review not found" });
+    if (review.user_id !== req.user.id) {
+      return res
+        .status(403)
+        .json({ error: "You can only edit your own reviews" });
+    }
+
+    await pool.query(
+      "UPDATE reviews SET rating = ?, body = ? WHERE id = ?",
+      [rating, body, req.params.id]
+    );
+
+    const [[updated]] = await pool.query(
+      `SELECT ${REVIEW_COLUMNS} FROM reviews r WHERE r.id = ?`,
+      [req.params.id]
+    );
+    res.json(updated);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // DELETE /api/reviews/:id — delete a review (protected; author only).
 router.delete("/:id", auth, async (req, res, next) => {
   try {

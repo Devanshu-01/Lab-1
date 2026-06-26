@@ -1,4 +1,5 @@
 import StarRating from './StarRating'
+import { optimized } from '../lib/images'
 
 // Top of the Apartment Detail page: photo, name, address, neighbourhood, rating.
 function ApartmentHeader({ apartment }) {
@@ -7,7 +8,7 @@ function ApartmentHeader({ apartment }) {
   return (
     <header className="apt-header">
       <div className="apt-header-image">
-        <img src={imageUrl} alt={name} />
+        <img src={optimized(imageUrl)} alt={name} loading="lazy" />
       </div>
       <div className="apt-header-info">
         <h1 className="apt-header-name">{name}</h1>

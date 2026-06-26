@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../lib/api'
 import ReviewCard from '../components/ReviewCard'
+import ReviewDialog from '../components/ReviewDialog'
 import './Profile.css'
 
 function Profile() {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
   const [myReviews, setMyReviews] = useState([])
+  const [editing, setEditing] = useState(null) // the review being edited, or null
 
   // Load the current user's reviews (apartment name is joined in by the API).
   useEffect(() => {
@@ -28,6 +30,14 @@ function Profile() {
   async function handleDelete(reviewId) {
     await api.deleteReview(reviewId)
     setMyReviews(prev => prev.filter(r => r.id !== reviewId))
+  }
+
+  // Throws on failure so the dialog can show the error and stay open.
+  async function handleEditSubmit({ rating, body }) {
+    const updated = await api.updateReview(editing.id, { rating, body })
+    setMyReviews(prev =>
+      prev.map(r => (r.id === editing.id ? { ...r, ...updated } : r))
+    )
   }
 
   function handleSignOut() {
@@ -71,6 +81,7 @@ function Profile() {
                   date={r.date}
                   author={r.author}
                   imageUrl={r.imageUrl}
+                  onEdit={() => setEditing(r)}
                   onDelete={() => handleDelete(r.id)}
                 />
               </div>
@@ -83,6 +94,18 @@ function Profile() {
           </p>
         )}
       </main>
+
+      {editing && (
+        <div className="modal-overlay" onClick={() => setEditing(null)}>
+          <div className="modal-content" onClick={e => e.stopPropagation()}>
+            <ReviewDialog
+              initial={{ rating: editing.rating, body: editing.body }}
+              onClose={() => setEditing(null)}
+              onSubmit={handleEditSubmit}
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

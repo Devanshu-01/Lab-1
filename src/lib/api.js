@@ -2,30 +2,21 @@
 // Base URL comes from Vite env (VITE_API_URL), defaulting to the local server.
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
 
-const TOKEN_KEY = 'tt_token'
+// Auth now rides on an httpOnly cookie that JavaScript cannot read. Every
+// request opts in with credentials: 'include' so the browser attaches it; the
+// server's CORS allows credentials for this exact origin. A cross-origin fetch
+// leaves cookies out by default, so this flag is required on every call.
 
-export function getToken() {
-  return localStorage.getItem(TOKEN_KEY)
-}
-
-export function setToken(token) {
-  if (token) localStorage.setItem(TOKEN_KEY, token)
-  else localStorage.removeItem(TOKEN_KEY)
-}
-
-// Core request helper. Adds JSON headers, the Bearer token when present, and
-// throws an Error (with the server's message) on non-2xx responses.
-async function request(path, { method = 'GET', body, auth = false } = {}) {
+// Core request helper. Adds JSON headers, sends the auth cookie, and throws an
+// Error (with the server's message) on non-2xx responses.
+async function request(path, { method = 'GET', body } = {}) {
   const headers = {}
   if (body !== undefined) headers['Content-Type'] = 'application/json'
-  if (auth) {
-    const token = getToken()
-    if (token) headers['Authorization'] = `Bearer ${token}`
-  }
 
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
     headers,
+    credentials: 'include', // send the httpOnly auth cookie
     body: body !== undefined ? JSON.stringify(body) : undefined,
   })
 
@@ -51,13 +42,9 @@ export async function uploadImage(file) {
   const form = new FormData()
   form.append('image', file)
 
-  const headers = {}
-  const token = getToken()
-  if (token) headers['Authorization'] = `Bearer ${token}`
-
   const res = await fetch(`${BASE_URL}/api/uploads`, {
     method: 'POST',
-    headers,
+    credentials: 'include', // send the httpOnly auth cookie
     body: form,
   })
 
@@ -79,8 +66,9 @@ export const api = {
   // Auth
   signup: (payload) => request('/api/auth/signup', { method: 'POST', body: payload }),
   login: (payload) => request('/api/auth/login', { method: 'POST', body: payload }),
-  me: () => request('/api/auth/me', { auth: true }),
-  myReviews: () => request('/api/auth/me/reviews', { auth: true }),
+  logout: () => request('/api/auth/logout', { method: 'POST' }),
+  me: () => request('/api/auth/me'),
+  myReviews: () => request('/api/auth/me/reviews'),
 
   // Apartments
   listApartments: () => request('/api/apartments'),
@@ -88,9 +76,11 @@ export const api = {
 
   // Reviews
   addReview: (aptId, payload) =>
-    request(`/api/apartments/${aptId}/reviews`, { method: 'POST', body: payload, auth: true }),
+    request(`/api/apartments/${aptId}/reviews`, { method: 'POST', body: payload }),
+  updateReview: (id, payload) =>
+    request(`/api/reviews/${id}`, { method: 'PUT', body: payload }),
   deleteReview: (id) =>
-    request(`/api/reviews/${id}`, { method: 'DELETE', auth: true }),
+    request(`/api/reviews/${id}`, { method: 'DELETE' }),
 
   // Uploads
   uploadImage,

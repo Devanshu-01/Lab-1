@@ -1,12 +1,15 @@
 import { useState } from 'react'
 import { uploadImage } from '../lib/api'
+import './reviews.css'
 
 // Star rating input, text area, optional photo, submit.
-// Receives onClose and onSubmit as props.
-function ReviewDialog({ onClose, onSubmit }) {
-  const [rating, setRating] = useState(0)
+// Receives onClose and onSubmit as props. When `initial` is passed the dialog
+// works in edit mode: it pre-fills the rating/body and titles itself "Edit".
+function ReviewDialog({ onClose, onSubmit, initial = null }) {
+  const isEdit = Boolean(initial)
+  const [rating, setRating] = useState(initial?.rating ?? 0)
   const [hover, setHover] = useState(0)
-  const [body, setBody] = useState('')
+  const [body, setBody] = useState(initial?.body ?? '')
   const [file, setFile] = useState(null)
   const [error, setError] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -34,8 +37,9 @@ function ReviewDialog({ onClose, onSubmit }) {
     setSubmitting(true)
     try {
       // Upload the photo to the CDN first, then attach its URL to the review.
+      // (Editing only changes the rating and text, so no upload there.)
       let imageUrl
-      if (file) {
+      if (file && !isEdit) {
         const result = await uploadImage(file)
         imageUrl = result.url
       }
@@ -49,7 +53,7 @@ function ReviewDialog({ onClose, onSubmit }) {
 
   return (
     <div className="review-dialog">
-      <h2>Write a Review</h2>
+      <h2>{isEdit ? 'Edit Your Review' : 'Write a Review'}</h2>
 
       <label className="dialog-label">Your rating</label>
       <div className="star-input">
@@ -75,21 +79,29 @@ function ReviewDialog({ onClose, onSubmit }) {
         rows={5}
       />
 
-      <label className="dialog-label" htmlFor="review-photo">Add a photo (optional)</label>
-      <input
-        id="review-photo"
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-      />
-      {file && <p className="dialog-file-name">{file.name}</p>}
+      {!isEdit && (
+        <>
+          <label className="dialog-label" htmlFor="review-photo">Add a photo (optional)</label>
+          <input
+            id="review-photo"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+          />
+          {file && <p className="dialog-file-name">{file.name}</p>}
+        </>
+      )}
 
       {error && <p className="dialog-error">{error}</p>}
 
       <div className="dialog-actions">
         <button className="btn-cancel" onClick={onClose} disabled={submitting}>Cancel</button>
         <button className="btn-submit" onClick={handleSubmit} disabled={submitting}>
-          {submitting ? 'Submitting…' : 'Submit Review'}
+          {submitting
+            ? 'Submitting…'
+            : isEdit
+              ? 'Save Changes'
+              : 'Submit Review'}
         </button>
       </div>
     </div>

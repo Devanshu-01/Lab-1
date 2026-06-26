@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { optimized } from '../lib/images'
 import './ApartmentCard.css'
 
 function Stars({ rating }) {
@@ -19,7 +20,7 @@ function ApartmentCard({ apartment }) {
   return (
     <Link to={`/apartment/${id}`} className="apt-card">
       <div className="apt-card-image">
-        <img src={imageUrl} alt={name} loading="lazy" />
+        <img src={optimized(imageUrl)} alt={name} loading="lazy" />
         <div className="apt-card-rating">
           <span className="rating-star">★</span>
           <span className="rating-num">{safeRating.toFixed(1)}</span>

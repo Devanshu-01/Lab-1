@@ -1,0 +1,203 @@
+/* Shared styles for ReviewCard and ReviewDialog so they render correctly on
+   any page (Apartment detail, Profile), independent of route/lazy-load order. */
+
+/* Review card */
+.review-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  box-shadow: var(--shadow-card);
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.review-date {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.review-body {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.review-image {
+  display: block;
+  max-width: 100%;
+  max-height: 280px;
+  margin: 12px 0;
+  border-radius: var(--radius-sm, 8px);
+  object-fit: cover;
+}
+
+.review-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.review-author {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.review-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.review-edit {
+  background: none;
+  color: var(--brand, #2563eb);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.review-edit:hover {
+  text-decoration: underline;
+}
+
+.review-delete {
+  background: none;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.review-delete:hover {
+  text-decoration: underline;
+}
+
+/* Modal shell */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal-content {
+  background: var(--white);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 480px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-modal);
+}
+
+/* Review dialog */
+.review-dialog h2 {
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.dialog-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.star-input {
+  display: flex;
+  gap: 6px;
+  font-size: 32px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.star-input-on {
+  color: var(--star-gold);
+}
+
+.star-input-off {
+  color: var(--border);
+}
+
+.review-dialog textarea {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  font-family: var(--font);
+  font-size: 14px;
+  resize: vertical;
+  margin-bottom: 8px;
+}
+
+.review-dialog textarea:focus {
+  border-color: var(--brand);
+}
+
+.dialog-file-name {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--muted, #6b7280);
+}
+
+.dialog-error {
+  color: #dc2626;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn-cancel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-cancel:hover {
+  background: var(--bg);
+}
+
+.btn-submit {
+  background: var(--brand);
+  color: var(--white);
+  font-weight: 600;
+  font-size: 14px;
+  padding: 10px 18px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-submit:hover {
+  background: var(--brand-dark);
+}
+
+/* Suspense / auth loading fallback */
+.route-loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 16px;
+}

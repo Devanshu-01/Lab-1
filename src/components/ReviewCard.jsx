@@ -1,8 +1,10 @@
 import StarRating from './StarRating'
+import { optimized } from '../lib/images'
+import './reviews.css'
 
 // Displays a single review. Receives all data as props. The optional onDelete
-// prop adds a delete button (used on the Profile page).
-function ReviewCard({ rating, body, date, author, imageUrl, onDelete }) {
+// and onEdit props add the corresponding buttons (used on the Profile page).
+function ReviewCard({ rating, body, date, author, imageUrl, onDelete, onEdit }) {
   return (
     <div className="review-card">
       <div className="review-header">
@@ -11,15 +13,27 @@ function ReviewCard({ rating, body, date, author, imageUrl, onDelete }) {
       </div>
       <p className="review-body">{body}</p>
       {imageUrl && (
-        <img className="review-image" src={imageUrl} alt="Review attachment" loading="lazy" />
+        <img
+          className="review-image"
+          src={optimized(imageUrl)}
+          alt="Review attachment"
+          loading="lazy"
+        />
       )}
       <div className="review-footer">
         <span className="review-author">{author}</span>
-        {onDelete && (
-          <button className="review-delete" onClick={onDelete}>
-            Delete
-          </button>
-        )}
+        <div className="review-actions">
+          {onEdit && (
+            <button className="review-edit" onClick={onEdit}>
+              Edit
+            </button>
+          )}
+          {onDelete && (
+            <button className="review-delete" onClick={onDelete}>
+              Delete
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )

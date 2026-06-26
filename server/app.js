@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import "dotenv/config";
 
 import authRoutes from "./routes/auth.js";
@@ -10,8 +11,16 @@ import uploadRoutes from "./routes/uploads.js";
 const app = express();
 
 // Middleware runs before your routes.
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || true })); // allow the frontend origin
+// Cookies cross origins only with CORS credentials AND a specific origin
+// (not the "*" wildcard), so the browser will attach the httpOnly auth cookie.
+app.use(
+  cors({
+    origin: process.env.CLIENT_ORIGIN || "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json()); // parse JSON request bodies
+app.use(cookieParser()); // read req.cookies (the auth token lives here)
 
 // Health check
 app.get("/api/health", (req, res) => {

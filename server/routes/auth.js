@@ -1,7 +1,12 @@
 import { Router } from "express";
 import bcrypt from "bcryptjs";
 import { pool } from "../db.js";
-import { auth, signToken } from "../middleware/auth.js";
+import {
+  auth,
+  signToken,
+  setAuthCookie,
+  TOKEN_COOKIE,
+} from "../middleware/auth.js";
 
 const router = Router();
 
@@ -31,6 +36,8 @@ router.post("/signup", async (req, res, next) => {
     );
 
     const user = { id: result.insertId, name, email };
+    // Set the httpOnly auth cookie; also return the token for API clients.
+    setAuthCookie(res, user.id);
     res.status(201).json({ token: signToken(user.id), user });
   } catch (err) {
     next(err);
@@ -54,6 +61,8 @@ router.post("/login", async (req, res, next) => {
       return res.status(401).json({ error: "Invalid credentials" });
     }
 
+    // Set the httpOnly auth cookie; also return the token for API clients.
+    setAuthCookie(res, user.id);
     res.json({
       token: signToken(user.id),
       user: { id: user.id, name: user.name, email: user.email },
@@ -61,6 +70,12 @@ router.post("/login", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+// POST /api/auth/logout — clear the auth cookie.
+router.post("/logout", (req, res) => {
+  res.clearCookie(TOKEN_COOKIE);
+  res.json({ ok: true });
 });
 
 // GET /api/auth/me — return the current user (protected).
@@ -71,7 +86,7 @@ router.get("/me", auth, async (req, res, next) => {
       [req.user.id]
     );
     if (!user) return res.status(404).json({ error: "User not found" });
-    res.json(user);
+    res.json({ user });
   } catch (err) {
     next(err);
   }

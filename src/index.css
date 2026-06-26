@@ -46,3 +46,15 @@ input {
 a {
   text-decoration: none;
 }
+
+/* Fallback shown while a lazy route chunk or the /me auth check is loading. */
+.route-loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 16px;
+}
+16px;
+}

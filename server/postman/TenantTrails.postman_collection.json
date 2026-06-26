@@ -30,7 +30,37 @@
             "health"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"status\": \"ok\"\n}"
+        }
+      ]
     },
     {
       "name": "Auth - Signup",
@@ -70,7 +100,47 @@
             "signup"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test User\",\n  \"email\": \"test.user@dal.ca\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/signup",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "signup"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUwMDAwMDAwfQ.O8t2t0Yk2y0d6Qe3Xv1aQp7m9sKX1example\",\n  \"user\": {\n    \"id\": 12,\n    \"name\": \"Sky Walker\",\n    \"email\": \"sky@dal.ca\"\n  }\n}"
+        }
+      ]
     },
     {
       "name": "Auth - Login",
@@ -110,7 +180,47 @@
             "login"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"alex@dal.ca\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzUwMDAwMDAwfQ.O8t2t0Yk2y0d6Qe3Xv1aQp7m9sKX1example\",\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"Alex\",\n    \"email\": \"alex@dal.ca\"\n  }\n}"
+        }
+      ]
     },
     {
       "name": "Auth - Me",
@@ -133,7 +243,43 @@
             "me"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"Alex\",\n    \"email\": \"alex@dal.ca\"\n  }\n}"
+        }
+      ]
     },
     {
       "name": "Auth - Logout",
@@ -200,7 +346,37 @@
             "apartments"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/apartments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apartments"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"The Marlstone\",\n    \"address\": \"5540 Spring Garden Rd\",\n    \"neighbourhood\": \"Spring Garden\",\n    \"tags\": [\n      \"Spotless\",\n      \"Responsive landlord\",\n      \"Well furnished\"\n    ],\n    \"noSummary\": 0,\n    \"aiSummary\": \"Tenants describe The Marlstone as spotless and well furnished, with a landlord who responds within a day.\",\n    \"imageUrl\": \"https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80\",\n    \"rating\": 5,\n    \"reviewCount\": 1\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Park Victoria\",\n    \"address\": \"1496 Carlton St\",\n    \"neighbourhood\": \"South End\",\n    \"tags\": [\n      \"Well maintained\",\n      \"Quiet\",\n      \"Expensive\"\n    ],\n    \"noSummary\": 0,\n    \"aiSummary\": \"Tenants consistently praise how well maintained and quiet Park Victoria is.\",\n    \"imageUrl\": \"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&q=80\",\n    \"rating\": 4.5,\n    \"reviewCount\": 2\n  }\n]"
+        }
+      ]
     },
     {
       "name": "Apartments - Get one (with reviews)",
@@ -218,7 +394,38 @@
             "1"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/apartments/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apartments",
+                "1"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 1,\n  \"name\": \"The Marlstone\",\n  \"address\": \"5540 Spring Garden Rd\",\n  \"neighbourhood\": \"Spring Garden\",\n  \"tags\": [\n    \"Spotless\",\n    \"Responsive landlord\",\n    \"Well furnished\"\n  ],\n  \"noSummary\": 0,\n  \"aiSummary\": \"Tenants describe The Marlstone as spotless and well furnished, with a landlord who responds within a day.\",\n  \"imageUrl\": \"https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80\",\n  \"rating\": 5,\n  \"reviewCount\": 1,\n  \"reviews\": [\n    {\n      \"id\": 1,\n      \"aptId\": 1,\n      \"rating\": 5,\n      \"body\": \"Spotless building and the landlord actually responds within a day. Highly recommend.\",\n      \"imageUrl\": null,\n      \"date\": \"2026-04-12\",\n      \"author\": \"Alex\",\n      \"userEmail\": \"alex@dal.ca\"\n    }\n  ]\n}"
+        }
+      ]
     },
     {
       "name": "Apartments - Get one (404)",
@@ -236,7 +443,38 @@
             "9999"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "404 Not Found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/apartments/9999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apartments",
+                "9999"
+              ]
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": \"Apartment not found\"\n}"
+        }
+      ]
     },
     {
       "name": "Reviews - Add (protected)",
@@ -268,7 +506,52 @@
             "reviews"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 5,\n  \"body\": \"Great place, responsive landlord.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apartments/1/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apartments",
+                "1",
+                "reviews"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 14,\n  \"aptId\": 1,\n  \"rating\": 5,\n  \"body\": \"Great place, would rent again.\",\n  \"imageUrl\": null,\n  \"date\": \"2026-06-26\",\n  \"author\": \"Alex\",\n  \"userEmail\": \"alex@dal.ca\"\n}"
+        }
+      ]
     },
     {
       "name": "Reviews - Add without token (401)",
@@ -296,7 +579,48 @@
             "reviews"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "401 Unauthorized",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 5,\n  \"body\": \"No token should be rejected.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/apartments/1/reviews",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "apartments",
+                "1",
+                "reviews"
+              ]
+            }
+          },
+          "status": "Unauthorized",
+          "code": 401,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": \"No token\"\n}"
+        }
+      ]
     },
     {
       "name": "Reviews - Edit (protected)",
@@ -491,7 +815,39 @@
             "comments"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/1/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "1",
+                "comments"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"id\": 1,\n    \"reviewId\": 1,\n    \"author\": \"Jordan\",\n    \"body\": \"Totally agree, great place.\",\n    \"createdAt\": \"2026-04-15 10:30:00\"\n  }\n]"
+        }
+      ]
     },
     {
       "name": "Comments - Add (protected)",
@@ -523,7 +879,52 @@
             "comments"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "201 Created",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"body\": \"Thanks for the helpful review!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/reviews/1/comments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "reviews",
+                "1",
+                "comments"
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 9,\n  \"reviewId\": 1,\n  \"author\": \"Alex\",\n  \"body\": \"Thanks for the review!\",\n  \"createdAt\": \"2026-06-26 12:00:00\"\n}"
+        }
+      ]
     },
     {
       "name": "Uploads - Image (protected)",
@@ -555,7 +956,52 @@
             "uploads"
           ]
         }
-      }
+      },
+      "response": [
+        {
+          "name": "200 OK",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/uploads",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "uploads"
+              ]
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json; charset=utf-8"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"url\": \"https://res.cloudinary.com/dl1dx2qid/image/upload/v1750000000/tenanttrails/sample.jpg\"\n}"
+        }
+      ]
     }
   ]
 }
